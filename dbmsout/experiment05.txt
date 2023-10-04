@@ -1,0 +1,238 @@
+SQL> CREATE TABLE customer(
+  2     customerid int primary key,
+  3     customername varchar(20),
+  4     contactname varchar(20),
+  5     address varchar(20),
+  6     city varchar(10),
+  7     postalcode char(6),
+  8     country varchar(10));
+
+Table created.
+
+SQL> INSERT INTO customer VALUES(1, 'Indian Exports', 'Raj Patel', '101 Ganges Rd', 'Mumbai', '400001', 'India');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(2, 'XYZ Ltd', 'Jane Doe', '456 Elm St', 'Los Angeles', '902001', 'USA');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(3, 'Delhi Traders', 'Suresh Kumar', '202 Yamuna Lane', 'Delhi', '110001', 'India');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(4, 'Shanghai Enterprises', 'Zhang Wei', '222 Yangtze Rd', 'Shanghai', '200001', 'China');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(5, 'Bangalore Imports', 'Priya Singh', '303 Silk St', 'Bangalore', '560001', 'India');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(6, 'Guangzhou Traders', 'Chen Lu', '333 Pearl St', 'Guangzhou', '510001', 'China');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(7, 'Asia Trading', 'Li Wei', '444 Oak Lane', 'Beijing', '135460', 'China');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(8, 'Chennai Enterprises', 'Amit Gupta', '404 Spice Blvd', 'Chennai', '600001', 'India');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(9, 'Chengdu Exports', 'Li Ming', '444 Panda Rd', 'Chengdu', '610001', 'China');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(10, 'Hyderabad Exports', 'Anita Reddy', '505 Biryani Ave', 'Hyderabad', '500001', 'India');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(11, 'Hong Kong Imports', 'Liu Hui', '555 Dragon St', 'Hong Kong', '999077', 'China');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(12, 'Pune Traders', 'Sanjay Desai', '606 Deccan Rd', 'Pune', '411001', 'India');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(13, 'California Imports', 'Lisa Davis', '456 Hollywood Blvd', 'Los Angeles', '900002', 'USA');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(14, 'Florida Exports', 'Jennifer Brown', '101 Sunshine Ave', 'Miami', '331002', 'USA');
+
+1 row created.
+
+SQL> INSERT INTO customer VALUES(15, 'Beijing Connections', 'Wang Li', '111 Great Wall Lane', 'Beijing', '100001', 'China');
+
+1 row created.
+
+SQL> SELECT * FROM customer;;
+
+CUSTOMERID CUSTOMERNAME         CONTACTNAME          ADDRESS              CITY                 POSTAL COUNTRY
+---------- -------------------- -------------------- -------------------- -------------------- ------ ----------
+         1 Indian Exports       Raj Patel            101 Ganges Rd        Mumbai               400001 India
+         2 XYZ Ltd              Jane Doe             456 Elm St           Los Angeles          902001 USA
+         3 Delhi Traders        Suresh Kumar         202 Yamuna Lane      Delhi                110001 India
+         4 Shanghai Enterprises Zhang Wei            222 Yangtze Rd       Shanghai             200001 China
+         5 Bangalore Imports    Priya Singh          303 Silk St          Bangalore            560001 India
+         6 Guangzhou Traders    Chen Lu              333 Pearl St         Guangzhou            510001 China
+         7 Asia Trading         Li Wei               444 Oak Lane         Beijing              135460 China
+         8 Chennai Enterprises  Amit Gupta           404 Spice Blvd       Chennai              600001 India
+         9 Chengdu Exports      Li Ming              444 Panda Rd         Chengdu              610001 China
+        10 Hyderabad Exports    Anita Reddy          505 Biryani Ave      Hyderabad            500001 India
+        11 Hong Kong Imports    Liu Hui              555 Dragon St        Hong Kong            999077 China
+        12 Pune Traders         Sanjay Desai         606 Deccan Rd        Pune                 411001 India
+        13 California Imports   Lisa Davis           456 Hollywood Blvd   Los Angeles          900002 USA
+        14 Florida Exports      Jennifer Brown       101 Sunshine Ave     Miami                331002 USA
+        15 Beijing Connections  Wang Li              111 Great Wall Lane  Beijing              100001 China
+
+15 rows selected.
+
+SQL> CREATE TABLE employees(
+  2     employeeid int primary key,
+  3     lastname varchar(20),
+  4     firstname varchar(20),
+  5     birthdate date);
+
+Table created.
+
+SQL> INSERT INTO employees values(101, 'Philip', 'Francis', '12-NOV-1995');
+
+1 row created.
+
+SQL> INSERT INTO employees values(102, 'Kumar', 'Raj', '20-JUN-1998');
+
+1 row created.
+
+SQL> INSERT INTO employees values(103, 'Li', 'Yuki', '08-FEB-1992');
+
+1 row created.
+
+SQL> SELECT * FROM employees;
+
+EMPLOYEEID LASTNAME             FIRSTNAME            BIRTHDATE
+---------- -------------------- -------------------- ---------
+       101 Philip               Francis              12-NOV-95
+       102 Kumar                Raj                  20-JUN-98
+       103 Li                   Yuki                 08-FEB-92
+
+
+SQL> CREATE TABLE orders(
+  2     orderid int primary key,
+  3     customerid int,
+  4     employeeid int,
+  5     orderdate date,
+  6     shipperid int,
+  7     FOREIGN KEY(customerid)REFERENCES customer(customerid),
+  8     FOREIGN KEY(employeeid)REFERENCES employees(employeeid));
+
+Table created.
+
+
+SQL> INSERT INTO orders VALUES(1, 7, 101, '15-JAN-2023', 1);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(2, 4, 103, '28-FEB-2023', 2);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(3, 8, 101, '10-MAR-2023', 3);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(4, 2, 101, '05-JUL-2023', 4);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(5, 15, 102, '22-MAY-2023', 5);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(6, 11, 101, '19-APR-2023', 6);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(7, 1, 101, '27-SEP-2023', 7);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(8, 6, 103, '08-JUN-2023', 8);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(9, 10, 101, '15-AUG-2023', 9);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(10, 5, 101, '29-JUL-2023', 10);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(11, 14, 102, '14-JAN-2023', 11);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(12, 3, 101, '02-DEC-2023', 12);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(13, 9, 101, '20-NOV-2023', 13);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(14, 13, 101, '07-OCT-2023', 14);
+
+1 row created.
+
+SQL> INSERT INTO orders VALUES(15, 12, 101, '25-SEP-2023', 15);
+
+1 row created.
+
+SQL> SELECT * FROM orders;
+
+   ORDERID CUSTOMERID EMPLOYEEID ORDERDATE  SHIPPERID
+---------- ---------- ---------- --------- ----------
+         1          7        101 15-JAN-23          1
+         2          4        103 28-FEB-23          2
+         3          8        101 10-MAR-23          3
+         4          2        101 05-JUL-23          4
+         5         15        102 22-MAY-23          5
+         6         11        101 19-APR-23          6
+         7          1        101 27-SEP-23          7
+         8          6        103 08-JUN-23          8
+         9         10        101 15-AUG-23          9
+        10          5        101 29-JUL-23         10
+        11         14        102 14-JAN-23         11
+        12          3        101 02-DEC-23         12
+        13          9        101 20-NOV-23         13
+        14         13        101 07-OCT-23         14
+        15         12        101 25-SEP-23         15
+
+15 rows selected.
+
+
+SQL> SELECT country, COUNT(*) AS customers FROM customer GROUP BY country HAVING COUNT(*) > 5;
+
+COUNTRY     CUSTOMERS
+---------- ----------
+China               6
+India               6
+
+SQL> SELECT country, COUNT(*) AS customers FROM customer GROUP BY country HAVING COUNT(*) > 5 ORDER BY COUNT(*) DESC;
+
+COUNTRY     CUSTOMERS
+---------- ----------
+India               6
+China               6
+
+SQL> SELECT employees.employeeid,employees.firstname,count(orders.orderid) as Order_count FROM employees
+  2     JOIN orders ON employees.employeeid=orders.employeeid
+  3     GROUP BY employees.employeeid,employees.firstname having count(orders.orderid)>10;
+
+EMPLOYEEID FIRSTNAME            ORDER_COUNT
+---------- -------------------- -----------
+       101 Francis                       11
