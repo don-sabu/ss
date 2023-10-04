@@ -1,0 +1,156 @@
+SQL> SELECT CEIL(8.29) FROM dual;
+
+CEIL(8.29)
+----------
+         9
+
+SQL> SELECT FLOOR(9.76) FROM dual;
+
+FLOOR(9.76)
+-----------
+          9
+
+SQL> SELECT SQRT(100) FROM dual;
+
+ SQRT(100)
+----------
+        10
+
+SQL> SELECT CEIL(8.29) FROM dual;
+
+CEIL(8.29)
+----------
+         9
+
+SQL>
+SQL> SELECT LEAST('a','b','c') FROM dual;
+
+L
+-
+a
+
+SQL> SELECT GREATEST('a','b','c') FROM dual;
+
+G
+-
+c
+
+SQL> SELECT SYSTIMESTAMP FROM dual;
+
+SYSTIMESTAMP
+---------------------------------------------------------------------------
+04-OCT-23 04.35.37.719131 AM +05:30
+
+SQL> SELECT TO_CHAR(sysdate,'mm/dd/yyyy hh24:mi:ss') FROM dual;
+
+TO_CHAR(SYSDATE,'MM
+-------------------
+10/04/2023 04:35:42
+
+SQL> SELECT ABS(-8.29) FROM dual;
+
+ABS(-8.29)
+----------
+      8.29
+
+SQL> CREATE TABLE angle(
+  2     angle int,
+  3     sin decimal(10,2),
+  4     cos decimal(10,2),
+  5     tan decimal(10,2),
+  6     cot decimal(10,2),
+  7     sec decimal(10,2));
+
+Table created.
+
+SQL> INSERT INTO angle (angle) values (0);
+
+1 row created.
+
+SQL> INSERT INTO angle (angle) values (30);
+
+1 row created.
+
+SQL> INSERT INTO angle (angle) values (45);
+
+1 row created.
+
+SQL> INSERT INTO angle (angle) values (60);
+
+1 row created.
+
+SQL> INSERT INTO angle (angle) values (90);
+
+1 row created.
+
+SQL> UPDATE angle SET sin = sin(angle*3.14/180);
+
+5 rows updated.
+
+SQL> UPDATE angle SET cos = cos(angle*3.14/180);
+
+5 rows updated.
+
+SQL> UPDATE angle SET tan = tan(angle*3.14/180) WHERE angle!=90;
+
+4 rows updated.
+
+SQL> UPDATE angle SET cot = cos/sin WHERE sin!=0;
+
+4 rows updated.
+
+SQL> UPDATE angle SET sec = 1/cos WHERE cos!=0;
+
+4 rows updated.
+
+SQL> select * from angle;
+
+     ANGLE        SIN        COS        TAN        COT        SEC
+---------- ---------- ---------- ---------- ---------- ----------
+         0          0          1          0                     1
+        30         .5        .87        .58       1.74       1.15
+        45        .71        .71          1          1       1.41
+        60        .87         .5       1.73        .57          2
+        90          1          0                     0
+
+SQL> SELECT REVERSE('nmutuAotedOehT') FROM dual;
+
+REVERSE('NMUTU
+--------------
+TheOdetoAutumn
+
+SQL> SELECT LTRIM('  123223XYZTech') FROM dual;
+
+LTRIM('123223
+-------------
+123223XYZTech
+
+SQL> SELECT RTRIM('123223XYZTech  ') FROM dual;
+
+RTRIM('123223
+-------------
+123223XYZTech
+
+SQL> SELECT RPAD('Computer',12,'x') FROM dual;
+
+RPAD('COMPUT
+------------
+Computerxxxx
+
+SQL> SELECT LENGTH('DatabaseManagementSystems') FROM dual;
+
+LENGTH('DATABASEMANAGEMENTSYSTEMS')
+-----------------------------------
+                                 25
+
+SQL> SELECT CONCAT('Julius ','Caesar') FROM dual;
+
+CONCAT('JULIU
+-------------
+Julius Caesar
+
+SQL> SELECT SUBSTR('India is my country',7,2) FROM dual;
+
+SU
+--
+is
