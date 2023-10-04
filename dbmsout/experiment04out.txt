@@ -1,0 +1,149 @@
+SQL> CREATE TABLE student(
+  2     roll int primary key,
+  3     name varchar(35),
+  4     physics decimal(10,2),
+  5     chemistry decimal(10,2),
+  6     maths decimal(10,2));
+
+Table created.
+
+
+SQL> INSERT INTO student VALUES(1, 'Pranav', 19, 12, 30);
+
+1 row created.
+
+SQL> INSERT INTO student VALUES(2, 'Prithvi', 25, 20, 24);
+
+1 row created.
+
+SQL> INSERT INTO student VALUES(3, 'Rajat', 20, 10, 38);
+
+1 row created.
+
+SQL> INSERT INTO student VALUES(4, 'Rohan', 10, 18, 24);
+
+1 row created.
+
+SQL> INSERT INTO student VALUES(5, 'Rose', 10, 10, 12);
+
+1 row created.
+
+SQL> INSERT INTO student VALUES(6, 'Ryan', 25, 11, 18);
+
+1 row created.
+
+SQL> INSERT INTO student VALUES(7, 'Sharon', 11, 18, 20);
+
+1 row created.
+
+SQL> INSERT INTO student VALUES(8, 'Shawn', 13, 11, 25);
+
+1 row created.
+
+SQL> INSERT INTO student VALUES(9, 'Sruthy', 23, 22, 45);
+
+1 row created.
+
+SQL> INSERT INTO student VALUES(10, 'Stephy', 24, 23, 49);
+
+1 row created.
+
+SQL> SELECT AVG(physics) AS physicsaverage FROM student;
+
+PHYSICSAVERAGE
+--------------
+            18
+
+
+SQL> SELECT MAX(maths) AS highest_mark_maths FROM student;
+
+HIGHEST_MARK_MATHS
+------------------
+                49
+
+SQL> SELECT MIN(chemistry) AS lowest_mark_chemistry FROM student;
+
+LOWEST_MARK_CHEMISTRY
+---------------------
+                   10
+
+SQL> SELECT COUNT(*) AS physicspasscount FROM student WHERE physics >= 12;
+
+PHYSICSPASSCOUNT
+----------------
+               7
+
+SQL> SELECT name AS passlist FROM student WHERE
+  2     physics >= 12 AND
+  3     chemistry >= 12 AND
+  4     maths >= 25;
+
+PASSLIST
+-----------------------------------
+Pranav
+Sruthy
+Stephy
+
+SQL> ALTER TABLE student ADD(totalmark decimal(10,2), result char(4));
+
+Table altered.
+
+SQL> UPDATE student SET totalmark = physics + chemistry + maths;
+
+10 rows updated.
+
+SQL> UPDATE student SET result = 'pass' WHERE
+  2     physics >= 12 AND
+  3     chemistry >= 12 AND
+  4     maths >= 25;
+
+3 rows updated.
+
+SQL> UPDATE student SET result = 'fail' WHERE
+  2     physics < 12 OR
+  3     chemistry < 12 OR
+  4     maths < 25;
+
+7 rows updated.
+
+SQL> SELECT * FROM student ORDER BY totalmark DESC;
+
+      ROLL NAME                                   PHYSICS  CHEMISTRY      MATHS  TOTALMARK RESU
+---------- ----------------------------------- ---------- ---------- ---------- ---------- ----
+        10 Stephy                                      24         23         49         96 pass
+         9 Sruthy                                      23         22         45         90 pass
+         2 Prithvi                                     25         20         24         69 fail
+         3 Rajat                                       20         10         38         68 fail
+         1 Pranav                                      19         12         30         61 pass
+         6 Ryan                                        25         11         18         54 fail
+         4 Rohan                                       10         18         24         52 fail
+         7 Sharon                                      11         18         20         49 fail
+         8 Shawn                                       13         11         25         49 fail
+         5 Rose                                        10         10         12         32 fail
+
+10 rows selected.
+
+
+SQL> SELECT COUNT(*) * 100 / 10 AS mathspasspercent FROM student WHERE maths >= 25;
+
+MATHSPASSPERCENT
+----------------
+              50
+
+SQL> SELECT COUNT(*) * 100 / 10 AS totalpasspercent FROM student WHERE result = 'pass';
+
+TOTALPASSPERCENT
+----------------
+              30
+
+SQL> SELECT AVG(totalmark) AS classaverage FROM student;
+
+CLASSAVERAGE
+------------
+          62
+
+SQL> SELECT COUNT(*) AS passnumber FROM student WHERE result = 'pass';
+
+PASSNUMBER
+----------
+         3
