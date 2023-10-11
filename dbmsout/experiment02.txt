@@ -1,0 +1,260 @@
+SQL> drop table employee;
+
+Table dropped.
+
+SQL> create table employee(
+  2     id char(3) primary key,
+  3     deptid char(1) not null,
+  4     name varchar(20),
+  5     desig varchar(20),
+  6     basic int,
+  7     sex char(1));
+
+Table created.
+
+SQL> describe employee;
+ Name                         Null?     Type
+ -----------------------------------------------------------
+ ID                           NOT NULL CHAR(3)
+ DEPTID                       NOT NULL CHAR(1)
+ NAME                                  VARCHAR2(20)
+ DESIG                                 VARCHAR2(20)
+ BASIC                                 NUMBER(38)
+ SEX                                   CHAR(1)
+
+SQL> insert into employee values ('101','1','anu','typist',3000,'f');
+
+1 row created.
+
+SQL> insert into employee values ('102','2','manu','analyst',5000,'m');
+
+1 row created.
+
+SQL> insert into employee values ('103','1','ramu','manager',8000,'m');
+
+1 row created.
+
+SQL> insert into employee values ('104','3','ashik','analyst',5790,'m');
+
+1 row created.
+
+SQL> insert into employee values ('105','2','neethu','clerk',2345,'f');
+
+1 row created.
+
+SQL> insert into employee values ('106','4','mary','clerk',6535,'f');
+
+1 row created.
+
+SQL> insert into employee values ('107','4','appu','manager',4000,'m');
+
+1 row created.
+
+SQL> select * from employee;
+
+ID  D NAME                 DESIG                     BASIC S
+--- - -------------------- -------------------- ---------- -
+101 1 anu                  typist                     3000 f
+102 2 manu                 analyst                    5000 m
+103 1 ramu                 manager                    8000 m
+104 3 ashik                analyst                    5790 m
+105 2 neethu               clerk                      2345 f
+106 4 mary                 clerk                      6535 f
+107 4 appu                 manager                    4000 m
+
+7 rows selected.
+
+SQL> select id, name, desig, basic from employee;
+
+ID  NAME                 DESIG                     BASIC
+--- -------------------- -------------------- ----------
+101 anu                  typist                     3000
+102 manu                 analyst                    5000
+103 ramu                 manager                    8000
+104 ashik                analyst                    5790
+105 neethu               clerk                      2345
+106 mary                 clerk                      6535
+107 appu                 manager                    4000
+
+7 rows selected.
+
+SQL> select id, name from employee where deptid = '2';
+
+ID  NAME
+--- --------------------
+102 manu
+105 neethu
+
+SQL> select id, name from employee where desig = 'typist';
+
+ID  NAME
+--- --------------------
+101 anu
+
+SQL> select * from employee where desig = 'analyst' OR desig = 'manager';
+
+ID  D NAME                 DESIG                     BASIC S
+--- - -------------------- -------------------- ---------- -
+102 2 manu                 analyst                    5000 m
+103 1 ramu                 manager                    8000 m
+104 3 ashik                analyst                    5790 m
+107 4 appu                 manager                    4000 m
+
+SQL> select * from employee where sex = 'm';
+
+ID  D NAME                 DESIG                     BASIC S
+--- - -------------------- -------------------- ---------- -
+102 2 manu                 analyst                    5000 m
+103 1 ramu                 manager                    8000 m
+104 3 ashik                analyst                    5790 m
+107 4 appu                 manager                    4000 m
+
+SQL> select * from employee where sex = 'f' AND desig = 'typist';
+
+ID  D NAME                 DESIG                     BASIC S
+--- - -------------------- -------------------- ---------- -
+101 1 anu                  typist                     3000 f
+
+SQL> select * from employee where sex = 'm' AND desig = 'clerk' AND basic < 3000;
+
+no rows selected
+
+SQL> alter table employee add manager_id char(3);
+
+Table altered.
+
+SQL> update employee set manager_id = null where id = '101';
+
+1 row updated.
+
+SQL> select * from employee;
+
+ID  D NAME                 DESIG                     BASIC S MAN
+--- - -------------------- -------------------- ---------- - ---
+101 1 anu                  typist                     3000 f
+102 2 manu                 analyst                    5000 m
+103 1 ramu                 manager                    8000 m
+104 3 ashik                analyst                    5790 m
+105 2 neethu               clerk                      2345 f
+106 4 mary                 clerk                      6535 f
+107 4 appu                 manager                    4000 m
+
+7 rows selected.
+
+SQL> ALTER TABLE employee ADD da FLOAT;
+
+Table altered.
+
+SQL> UPDATE employee SET da = BASIC * .075;
+
+7 rows updated.
+
+SQL> ALTER TABLE employee ADD hra FLOAT;
+
+Table altered.
+
+SQL> UPDATE employee SET hra = BASIC * .09;
+
+7 rows updated.
+
+SQL> ALTER TABLE employee ADD netsal FLOAT;
+
+Table altered.
+
+SQL> UPDATE employee SET netsal = BASIC + DA + HRA;
+
+7 rows updated.
+
+SQL> SELECT id,name,desig,deptid,basic FROM employee ORDER BY basic DESC;
+
+ID  NAME                 DESIG                D      BASIC
+--- -------------------- -------------------- - ----------
+103 ramu                 manager              1       8000
+106 mary                 clerk                4       6535
+104 ashik                analyst              3       5790
+102 manu                 analyst              2       5000
+107 appu                 manager              4       4000
+101 anu                  typist               1       3000
+105 neethu               clerk                2       2345
+
+7 rows selected.
+
+SQL> SELECT DISTINCT desig FROM employee;
+
+DESIG
+--------------------
+typist
+clerk
+analyst
+manager
+
+SQL> SELECT id,name,deptid,basic FROM employee WHERE (desig = 'manager' OR desig = 'clerk') and (basic BETWEEN 2500 AND 6000);
+
+ID  NAME                 D      BASIC
+--- -------------------- - ----------
+107 appu                 4       4000
+
+SQL> SELECT desig, MAX(basic) AS maxbasicpay FROM employee GROUP BY desig;
+
+DESIG                MAXBASICPAY
+-------------------- -----------
+typist                      3000
+clerk                       6535
+analyst                     5790
+manager                     8000
+
+SQL> UPDATE employee SET manager_id=null WHERE id in (101,102,103,105);
+
+4 rows updated.
+
+SQL> UPDATE employee SET manager_id=102 WHERE id = 104;
+
+1 row updated.
+
+SQL> UPDATE employee SET manager_id=103 WHERE id = 107;
+
+1 row updated.
+
+SQL> UPDATE employee SET manager_id=106 WHERE id = 105;
+
+1 row updated.
+
+SQL> SELECT e.id, e.name, m.name AS managername FROM employee e LEFT JOIN employee m ON e.manager_id=m.id;
+
+ID  NAME                 MANAGERNAME
+--- -------------------- --------------------
+104 ashik                manu
+107 appu                 ramu
+105 neethu               mary
+106 mary
+103 ramu
+102 manu
+101 anu
+
+7 rows selected.
+
+SQL> SELECT deptid, AVG(basic) AS averagebasicpay FROM employee GROUP BY deptid;
+
+D AVERAGEBASICPAY
+- ---------------
+1            5500
+3            5790
+2          3672.5
+4          5267.5
+
+SQL> SELECT deptid, COUNT(id) AS noofemployee FROM employee GROUP BY deptid;
+
+D NOOFEMPLOYEE
+- ------------
+1            2
+3            1
+2            2
+4            2
+
+SQL> SELECT MAX(basic) as maximumbasicpay from employee;
+
+MAXIMUMBASICPAY
+---------------
+           8000
+
+SQL>
