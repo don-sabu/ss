@@ -1,0 +1,59 @@
+SQL> SELECT * FROM bank;
+
+BANKNAME   HEADOFFICE      BRANCH          BRANCHCODE
+---------- --------------- --------------- -----------
+hdfc       mumbai          palai           hdfc0001497
+sbi        kottayam        monippally      sbin0070134
+
+SQL> GRANT SELECT, INSERT ON bank TO c21ad13;
+
+Grant succeeded.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SQL> SELECT * FROM bank;
+
+BANKNAME   HEADOFFICE      BRANCH          BRANCHCODE
+---------- --------------- --------------- -----------
+hdfc       mumbai          palai           hdfc0001497
+sbi        kottayam        monippally      sbin0070134
+kotak      mumbai          palai           KKBK0009300
+
+
+SQL> REVOKE SELECT, INSERT ON bank FROM c21ad13;
+
+Revoke succeeded.
