@@ -14,7 +14,28 @@ Grant succeeded.
 
 
 
+// Other user "c21ad13"
+SQL> SELECT  * FROM c21ad24.bank;
 
+BANKNAME   HEADOFFICE      BRANCH          BRANCHCODE
+---------- --------------- --------------- -----------
+hdfc       mumbai          palai           hdfc0001497
+sbi        kottayam        monippally      sbin0070134
+
+SQL> INSERT INTO c21ad24.bank VALUES('kotak','mumbai','palai','KKBK0009300');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> INSERT INTO c21ad024.bank VALUES('federal','kottayam','kuravilangad','fdrl0001145');
+INSERT INTO c21ad024.bank VALUES('federal','kottayam','kuravilangad','fdrl0001145')
+                     *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+//
 
 
 
