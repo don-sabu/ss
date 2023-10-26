@@ -1,0 +1,57 @@
+SQL> CREATE TABLE bank(
+  2     bankname VARCHAR(10),
+  3     headoffice VARCHAR(15),
+  4     branch VARCHAR(15),
+  5     branchcode CHAR(11));
+
+Table created.
+
+SQL> INSERT INTO bank VALUES('hdfc','mumbai','palai','hdfc0001497');
+
+1 row created.
+
+SQL> INSERT INTO bank VALUES('sbi','kottayam','monippally','sbin0070134');
+
+1 row created.
+
+SQL> SAVEPOINT v1;
+
+Savepoint created.
+
+SQL> INSERT INTO bank VALUES('kotak','mumbai','palai','KKBK0009300');
+
+1 row created.
+
+SQL> INSERT INTO bank VALUES('hdfc','mumbai','kottayam','hdfc0000071');
+
+1 row created.
+
+SQL> INSERT INTO bank VALUES('hdfc','kottayam','kuravilangad','fdrl0001145');
+
+1 row created.
+
+SQL> SELECT * FROM bank;
+
+BANKNAME   HEADOFFICE      BRANCH          BRANCHCODE
+---------- --------------- --------------- -----------
+hdfc       mumbai          palai           hdfc0001497
+sbi        kottayam        monippally      sbin0070134
+kotak      mumbai          palai           KKBK0009300
+hdfc       mumbai          kottayam        hdfc0000071
+hdfc       kottayam        kuravilangad    fdrl0001145
+
+
+SQL> ROLLBACK TO v1;
+
+Rollback complete.
+
+SQL> SELECT * FROM bank;
+
+BANKNAME   HEADOFFICE      BRANCH          BRANCHCODE
+---------- --------------- --------------- -----------
+hdfc       mumbai          palai           hdfc0001497
+sbi        kottayam        monippally      sbin0070134
+
+SQL> COMMIT;
+
+Commit complete.
