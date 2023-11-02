@@ -1,0 +1,118 @@
+SQL> CREATE TABLE bank(
+  2     bankcode VARCHAR(3) PRIMARY KEY,
+  3     bankname VARCHAR(20) NOT NULL,
+  4     headoffice VARCHAR(15),
+  5     branches INT);
+
+Table created.
+
+SQL> INSERT INTO bank VALUES('FDL','Federal Bank','Ernakulam',650);
+
+1 row created.
+
+SQL> INSERT INTO bank VALUES('SBT','State Bank','Trivandrum',230);
+
+1 row created.
+
+SQL> INSERT INTO bank VALUES('SIB','South Indian Bank','Ernakulam',941);
+
+1 row created.
+
+SQL> INSERT INTO bank VALUES('CSB','Catholic Syrian Bank','Thrissur',941);
+
+1 row created.
+
+
+SQL> SELECT * FROM bank;
+
+BAN BANKNAME             HEADOFFICE        BRANCHES
+--- -------------------- --------------- ----------
+FDL Federal Bank         Ernakulam              650
+SBT State Bank           Trivandrum             230
+SIB South Indian Bank    Ernakulam              941
+CSB Catholic Syrian Bank Thrissur               941
+
+
+SQL> CREATE TABLE branch(
+  2     branchid CHAR(11) PRIMARY KEY,
+  3     branchname VARCHAR(20) DEFAULT 'New Delhi',
+  4     bankid VARCHAR(3),
+  5     FOREIGN KEY (bankid) REFERENCES bank(bankcode) ON DELETE CASCADE);
+
+Table created.
+
+SQL> INSERT INTO branch VALUES('SBTR0000134','Monippally','SBT');
+
+1 row created.
+
+SQL> INSERT INTO branch VALUES('FDRL0001025','Kottayam','FDL');
+
+1 row created.
+
+SQL> INSERT INTO branch VALUES('SIBL0000037','Kottayam','SIB');
+
+1 row created.
+
+SQL> INSERT INTO branch VALUES('CSBK0000153','Palai','CSB');
+
+1 row created.
+
+SQL> SELECT * FROM branch;
+
+BRANCHID    BRANCHNAME           BAN
+----------- -------------------- ---
+SBTR0000134 Monippally           SBT
+FDRL0001025 Kottayam             FDL
+SIBL0000037 Kottayam             SIB
+CSBK0000153 Palai                CSB
+
+
+SQL> DELETE FROM bank WHERE bankcode = 'SBT';
+
+1 row deleted.
+
+SQL> SELECT * FROM bank;
+
+BAN BANKNAME             HEADOFFICE        BRANCHES
+--- -------------------- --------------- ----------
+FDL Federal Bank         Ernakulam              650
+SIB South Indian Bank    Ernakulam              941
+CSB Catholic Syrian Bank Thrissur               941
+
+SQL> SELECT * FROM branch;
+
+BRANCHID    BRANCHNAME           BAN
+----------- -------------------- ---
+FDRL0001025 Kottayam             FDL
+SIBL0000037 Kottayam             SIB
+CSBK0000153 Palai                CSB
+
+
+SQL> CREATE VIEW bank_head AS
+  2     SELECT * FROM bank WHERE headoffice = 'Ernakulam';
+
+View created.
+
+SQL> SELECT * FROM bank_head;
+
+BAN BANKNAME             HEADOFFICE        BRANCHES
+--- -------------------- --------------- ----------
+FDL Federal Bank         Ernakulam              650
+SIB South Indian Bank    Ernakulam              941
+
+
+SQL> CREATE VIEW bank_branch AS
+  2     SELECT * FROM branch WHERE branchname = 'Kottayam';
+
+View created.
+
+SQL> SELECT * FROM bank_branch;
+
+BRANCHID    BRANCHNAME           BAN
+----------- -------------------- ---
+FDRL0001025 Kottayam             FDL
+SIBL0000037 Kottayam             SIB
+
+
+
+
