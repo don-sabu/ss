@@ -87,6 +87,16 @@ FDRL0001025 Kottayam             FDL
 SIBL0000037 Kottayam             SIB
 CSBK0000153 Palai                CSB
 
+SQL> ALTER TABLE branch DROP PRIMARY KEY;
+
+Table altered.
+
+SQL> DESC branch;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BRANCHID                                           CHAR(11)
+ BRANCHNAME                                         VARCHAR2(20)
+ BANKID                                             VARCHAR2(3)
 
 SQL> CREATE VIEW bank_head AS
   2     SELECT * FROM bank WHERE headoffice = 'Ernakulam';
