@@ -1,0 +1,190 @@
+SQL> SET SERVEROUTPUT ON
+SQL> BEGIN
+  2     dbms_output.put_line('Hello World');
+  3  END;
+  4  /
+Hello World
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2     a number:= 8;
+  3     b number:= 2;
+  4     c number;
+  5  BEGIN
+  6     c := a + b;
+  7     dbms_output.put_line('Sum is: ' || c);
+  8  END;
+  9  /
+Sum is: 10
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2     a number;
+  3     b number;
+  4     c number;
+  5  BEGIN
+  6     a := &a;
+  7     b := &b;
+  8     c := a + b;
+  9     dbms_output.put_line('Sum is: ' || c);
+ 10  END;
+ 11  /
+Enter value for a: 8
+old   6:        a := &a;
+new   6:        a := 8;
+Enter value for b: 2
+old   7:        b := &b;
+new   7:        b := 2;
+Sum is: 10
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2     n number;
+  3     f number;
+  4
+  5  BEGIN
+  6     n := &n;
+  7     f := 1;
+  8     WHILE n>0 LOOP
+  9             f := f*n;
+ 10             n := n-1;
+ 11     END LOOP;
+ 12     dbms_output.put_line('Factorial is: ' ||f);
+ 13  END;
+ 14  /
+Enter value for n: 5
+old   6:        n := &n;
+new   6:        n := 5;
+Factorial is: 120
+
+PL/SQL procedure successfully completed.
+
+
+SQL> DECLARE
+  2     a number := &a;
+  3     b number := &b;
+  4     c number := &c;
+  5  BEGIN
+  6     IF a>b AND a>c THEN
+  7             dbms_output.put_line('The greatest number is: ' || a);
+  8     ELSIF b>a AND b>c THEN
+  9             dbms_output.put_line('The greatest number is: ' || b);
+ 10     ELSE
+ 11             dbms_output.put_line('The greatest number is: ' || c);
+ 12     END IF;
+ 13  END;
+ 14  /
+Enter value for a: 1
+old   2:        a number := &a;
+new   2:        a number := 1;
+Enter value for b: 2
+old   3:        b number := &b;
+new   3:        b number := 2;
+Enter value for c: 3
+old   4:        c number := &c;
+new   4:        c number := 3;
+The greatest number is: 3
+
+PL/SQL procedure successfully completed.
+
+
+
+SQL> DECLARE
+  2     a number := &a;
+  3     b number := &b;
+  4     s number;
+  5  BEGIN
+  6     s := &s;
+  7     IF s = 1 THEN
+  8             dbms_output.put_line('The sum is: ' || (a+b));
+  9     ELSIF s = 2 THEN
+ 10             dbms_output.put_line('The difference is: ' || (a-b));
+ 11     ELSIF s = 3 THEN
+ 12             dbms_output.put_line('The product is: ' || (a*b));
+ 13     ELSIF s = 4 THEN
+ 14             dbms_output.put_line('The quotient is: ' || (a/b));
+ 15     ELSE
+ 16             dbms_output.put_line('Wrong Choice');
+ 17     END IF;
+ 18  END;
+ 19  /
+Enter value for a: 2
+old   2:        a number := &a;
+new   2:        a number := 2;
+Enter value for b: 2
+old   3:        b number := &b;
+new   3:        b number := 2;
+Enter value for s: 4
+old   6:        s := &s;
+new   6:        s := 4;
+The quotient is: 1
+
+PL/SQL procedure successfully completed.
+
+
+SQL> DECLARE
+  2     a number := 0;
+  3     b number := 1;
+  4     n number := &n;
+  5     i number;
+  6     t number :=0;
+  7  BEGIN
+  8     FOR i IN 1..n LOOP
+  9             dbms_output.put_line(a);
+ 10             t := a;
+ 11             a := b;
+ 12             b := t +b;
+ 13     END LOOP;
+ 14  END;
+ 15  /
+Enter value for n: 5
+old   4:        n number := &n;
+new   4:        n number := 5;
+0
+1
+1
+2
+3
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2     a number := &a;
+  3     b number := &b;
+  4     s number;
+  5  BEGIN
+  6     s := a/b;
+  7     dbms_output.put_line('Quotient: '||s);
+  8  EXCEPTION
+  9     WHEN ZERO_DIVIDE THEN
+ 10             dbms_output.put_line('Error: Division with zero');
+ 11  END;
+ 12  /
+Enter value for a: 2
+old   2:        a number := &a;
+new   2:        a number := 2;
+Enter value for b: 0
+old   3:        b number := &b;
+new   3:        b number := 0;
+Error: Division with zero
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2     a number := 5;
+  3     b number := 4;
+  4     c number;
+  5
+  6  BEGIN
+  7     SELECT a INTO c FROM DUAL WHERE a<b;
+  8  EXCEPTION
+  9     WHEN NO_DATA_FOUND THEN
+ 10             dbms_output.put_line('Error: No data found');
+ 11  END;
+ 12  /
+Error: No data found
+
+PL/SQL procedure successfully completed.
