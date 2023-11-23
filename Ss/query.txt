@@ -1,41 +1,57 @@
-CREATE TABLE employee(
-	id CHAR(3),
-	name VARCHAR(10),
-	monthly_salary INT);
+CREATE OR REPLACE PACKAGE pk1 AS
+	PROCEDURE proc1(a INT, b INT);
+	PROCEDURE proc2(s INT);
+	FUNCTION fn11(n INT) RETURN VARCHAR;
+	FUNCTION fn22(p INT, q INT, r INT) RETURN INT;
+END pk1;
+/
 
-INSERT INTO employee VALUES('201','Ramesh', 5600);
-INSERT INTO employee VALUES('202','Suresh', 4800);
-INSERT INTO employee VALUES('203','Mahesh', 55000);
-INSERT INTO employee VALUES('204','Umesh', 20000);
-INSERT INTO employee VALUES('205','Rupesh', 4500);
+CREATE OR REPLACE PACKAGE BODY pk1 AS
+	PROCEDURE proc1(a INT, b INT) IS
+	BEGIN 
+		dbms_output.put_line('Sum: '||(a+b));
+		dbms_output.put_line('Average: '||((a+b)/2));
+		dbms_output.put_line('Product: '||(a*b));
+	END proc1;
+	
+	PROCEDURE proc2(s INT) IS
+	BEGIN 
+		dbms_output.put_line('Square root: '||sqrt(s));
+	END proc2;
 
-SELECT * FROM employee;
+	FUNCTION fn11(n INT) RETURN VARCHAR IS
+	BEGIN 
+		IF (MOD(n,2) = 0) THEN
+			RETURN 'Even';
+		ELSE
+			RETURN 'Odd';
+		END IF;
+	END fn11;
 
+	FUNCTION fn22(p INT, q INT, r INT) RETURN INT IS
+	BEGIN 
+		RETURN (p+q+r);
+	END fn22;
+
+END pk1;
+/
 
 DECLARE
-	CURSOR temp IS
-		SELECT id, monthly_salary FROM employee;
-		row temp %ROWTYPE;
-	annualsal INT;
-	sal INT;
-	
+	a INT := &a;
+	b INT := &b;
+	s INT := &s;
+	n INT := &n;
+	p INT := &p;
+	q INT := &q;
+	r INT := &r;
+	eod VARCHAR(10);
+	res INT;
 BEGIN
-	OPEN temp;
-	LOOP
-		FETCH temp into row;
-		EXIT WHEN temp%NOTFOUND;
-		annualsal := row.monthly_salary * 12;
-		IF annualsal > 500000 THEN
-			sal := row.monthly_salary * 1.1;
-		ELSIF annualsal > 200000 THEN
-			sal := row.monthly_salary * 1.15;
-		ELSIF annualsal > 60000 THEN
-			sal := row.monthly_salary * 1.2;
-		ELSE
-			sal := row.monthly_salary * 1.25;
-		END IF;
-		UPDATE employee SET monthly_salary = sal WHERE id = row.id;
-	END LOOP;
-	CLOSE temp;
+	pk1.proc1(a,b);
+	pk1.proc2(s);
+	eod := pk1.fn11(n);
+	res := pk1.fn22(p,q,r);
+	dbms_output.put_line(n||' is '||eod);
+	dbms_output.put_line('Sum is '||res);
 END;
 /
