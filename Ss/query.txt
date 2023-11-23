@@ -1,0 +1,57 @@
+CREATE TABLE bankdetails(
+	accno CHAR(11),
+	name VARCHAR(15),
+	balance INT,
+	adate DATE);
+INSERT INTO bankdetails VALUES('42217647023','Suresh','10000','04-FEB-13');
+INSERT INTO bankdetails VALUES('84632354765','Ramesh','20000','05-MAR-14');
+INSERT INTO bankdetails VALUES('68426587235','Mahesh','15000','06-APR-15');
+
+SELECT * FROM bankdetails;
+
+CREATE TABLE bankintr(
+	accno CHAR(11),
+	intr INT);
+
+
+DECLARE
+	CURSOR temp IS
+		SELECT accno, balance FROM bankdetails;
+		rec temp %ROWTYPE;
+	interest INT;
+BEGIN
+	OPEN temp;
+	LOOP
+		FETCH temp into rec;
+		interest := 0.08*rec.balance;
+		INSERT INTO bankintr VALUES(rec.accno,interest);
+		EXIT WHEN temp%NOTFOUND;
+	END LOOP;
+	CLOSE temp;
+END;
+/
+
+SELECT * FROM bankintr;
+
+
+
+CREATE TABLE student(
+	id CHAR(3),
+	name VARCHAR(10),
+	m1 INT,
+	m2 INT,
+	m3 INT,
+	grade CHAR(1));
+
+INSERT INTO student (id, name, m1, m2, m3)
+	VALUES('001','Tom',70,80,90);
+INSERT INTO student (id,name,m1,m2,m3)
+	VALUES('002','Aneeta',65,85,92);
+INSERT INTO student (id,name,m1,m2,m3)
+	VALUES('003','Don',89,93,54);
+INSERT INTO student (id,name,m1,m2,m3)
+	VALUES('003','Ben',96,67,65);
+INSERT INTO student (id,name,m1,m2,m3)
+	VALUES('003','Oggy',78,45,97);
+
+SELECT * FROM student;
