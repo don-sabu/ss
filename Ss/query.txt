@@ -1,57 +1,41 @@
-CREATE TABLE bankdetails(
-	accno CHAR(11),
-	name VARCHAR(15),
-	balance INT,
-	adate DATE);
-INSERT INTO bankdetails VALUES('42217647023','Suresh','10000','04-FEB-13');
-INSERT INTO bankdetails VALUES('84632354765','Ramesh','20000','05-MAR-14');
-INSERT INTO bankdetails VALUES('68426587235','Mahesh','15000','06-APR-15');
+CREATE TABLE employee(
+	id CHAR(3),
+	name VARCHAR(10),
+	monthly_salary INT);
 
-SELECT * FROM bankdetails;
+INSERT INTO employee VALUES('201','Ramesh', 5600);
+INSERT INTO employee VALUES('202','Suresh', 4800);
+INSERT INTO employee VALUES('203','Mahesh', 55000);
+INSERT INTO employee VALUES('204','Umesh', 20000);
+INSERT INTO employee VALUES('205','Rupesh', 4500);
 
-CREATE TABLE bankintr(
-	accno CHAR(11),
-	intr INT);
+SELECT * FROM employee;
 
 
 DECLARE
 	CURSOR temp IS
-		SELECT accno, balance FROM bankdetails;
-		rec temp %ROWTYPE;
-	interest INT;
+		SELECT id, monthly_salary FROM employee;
+		row temp %ROWTYPE;
+	annualsal INT;
+	sal INT;
+	
 BEGIN
 	OPEN temp;
 	LOOP
-		FETCH temp into rec;
-		interest := 0.08*rec.balance;
-		INSERT INTO bankintr VALUES(rec.accno,interest);
+		FETCH temp into row;
 		EXIT WHEN temp%NOTFOUND;
+		annualsal := row.monthly_salary * 12;
+		IF annualsal > 500000 THEN
+			sal := row.monthly_salary * 1.1;
+		ELSIF annualsal > 200000 THEN
+			sal := row.monthly_salary * 1.15;
+		ELSIF annualsal > 60000 THEN
+			sal := row.monthly_salary * 1.2;
+		ELSE
+			sal := row.monthly_salary * 1.25;
+		END IF;
+		UPDATE employee SET monthly_salary = sal WHERE id = row.id;
 	END LOOP;
 	CLOSE temp;
 END;
 /
-
-SELECT * FROM bankintr;
-
-
-
-CREATE TABLE student(
-	id CHAR(3),
-	name VARCHAR(10),
-	m1 INT,
-	m2 INT,
-	m3 INT,
-	grade CHAR(1));
-
-INSERT INTO student (id, name, m1, m2, m3)
-	VALUES('001','Tom',70,80,90);
-INSERT INTO student (id,name,m1,m2,m3)
-	VALUES('002','Aneeta',65,85,92);
-INSERT INTO student (id,name,m1,m2,m3)
-	VALUES('003','Don',89,93,54);
-INSERT INTO student (id,name,m1,m2,m3)
-	VALUES('003','Ben',96,67,65);
-INSERT INTO student (id,name,m1,m2,m3)
-	VALUES('003','Oggy',78,45,97);
-
-SELECT * FROM student;
