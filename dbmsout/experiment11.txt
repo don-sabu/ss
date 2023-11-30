@@ -132,6 +132,9 @@ SQL> CREATE TABLE cust_count(
 
 Table created.
 
+SQL> INSERT INTO cust_count VALUES (0);
+
+1 row created.
 
 SQL> CREATE OR REPLACE TRIGGER insert_msg
   2  AFTER INSERT ON customer_details
@@ -147,3 +150,60 @@ SQL> INSERT INTO customer_details VALUES('100','Manu','Mumbai');
 New row inserted in customer_details table!
 
 1 row created.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SQL> CREATE OR REPLACE TRIGGER counter
+  2  AFTER INSERT OR DELETE
+  3  ON customer_details
+  4  DECLARE
+  5     count_row INT;
+  6  BEGIN
+  7     IF INSERTING THEN
+  8             UPDATE cust_count SET count_row = count_row+1;
+  9     ELSIF DELETING THEN
+ 10             UPDATE cust_count SET count_row = count_row-1;
+ 11     END IF;
+ 12  END;
+ 13  /
+
+Trigger created.
+
+SQL> INSERT INTO customer_details VALUES('101','Albin','Cochin');
+
+1 row created.
+
+SQL> SELECT * FROM CUST_COUNT;
+
+ COUNT_ROW
+----------
+         3
+
+SQL> DELETE FROM customer_details WHERE cust_id = '101';
+
+1 row deleted.
+
+SQL> SELECT * FROM CUST_COUNT;
+
+ COUNT_ROW
+----------
+         2
