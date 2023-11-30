@@ -1,0 +1,90 @@
+SQL> CREATE OR REPLACE PACKAGE pk1 AS
+  2     PROCEDURE proc1(a INT, b INT);
+  3     PROCEDURE proc2(s INT);
+  4     FUNCTION fn11(n INT) RETURN VARCHAR;
+  5     FUNCTION fn22(p INT, q INT, r INT) RETURN INT;
+  6  END pk1;
+  7  /
+
+Package created.
+
+SQL> CREATE OR REPLACE PACKAGE BODY pk1 AS
+  2     PROCEDURE proc1(a INT, b INT) IS
+  3     BEGIN
+  4             dbms_output.put_line('Sum: '||(a+b));
+  5             dbms_output.put_line('Average: '||((a+b)/2));
+  6             dbms_output.put_line('Product: '||(a*b));
+  7     END proc1;
+  8
+  9     PROCEDURE proc2(s INT) IS
+ 10     BEGIN
+ 11             dbms_output.put_line('Square root: '||sqrt(s));
+ 12     END proc2;
+ 13
+ 14     FUNCTION fn11(n INT) RETURN VARCHAR IS
+ 15     BEGIN
+ 16             IF (MOD(n,2) = 0) THEN
+ 17                     RETURN 'Even';
+ 18             ELSE
+ 19                     RETURN 'Odd';
+ 20             END IF;
+ 21     END fn11;
+ 22
+ 23     FUNCTION fn22(p INT, q INT, r INT) RETURN INT IS
+ 24     BEGIN
+ 25             RETURN (p+q+r);
+ 26     END fn22;
+ 27
+ 28  END pk1;
+ 29  /
+
+Package body created.
+
+SQL> DECLARE
+  2     a INT := &a;
+  3     b INT := &b;
+  4     s INT := &s;
+  5     n INT := &n;
+  6     p INT := &p;
+  7     q INT := &q;
+  8     r INT := &r;
+  9     eod VARCHAR(10);
+ 10     res INT;
+ 11  BEGIN
+ 12     pk1.proc1(a,b);
+ 13     pk1.proc2(s);
+ 14     eod := pk1.fn11(n);
+ 15     res := pk1.fn22(p,q,r);
+ 16     dbms_output.put_line(n||' is '||eod);
+ 17     dbms_output.put_line('Sum is '||res);
+ 18  END;
+ 19  /
+Enter value for a: 5
+old   2:        a INT := &a;
+new   2:        a INT := 5;
+Enter value for b: 2
+old   3:        b INT := &b;
+new   3:        b INT := 2;
+Enter value for s: 4
+old   4:        s INT := &s;
+new   4:        s INT := 4;
+Enter value for n: 5
+old   5:        n INT := &n;
+new   5:        n INT := 5;
+Enter value for p: 6
+old   6:        p INT := &p;
+new   6:        p INT := 6;
+Enter value for q: 7
+old   7:        q INT := &q;
+new   7:        q INT := 7;
+Enter value for r: 8
+old   8:        r INT := &r;
+new   8:        r INT := 8;
+Sum: 7
+Average: 3.5
+Product: 10
+Square root: 2
+5 is Odd
+Sum is 21
+
+PL/SQL procedure successfully completed.
