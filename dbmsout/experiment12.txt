@@ -1,0 +1,308 @@
+SQL> CREATE TABLE bankdetails(
+  2     accno CHAR(11),
+  3     name VARCHAR(15),
+  4     balance INT,
+  5     adate DATE);
+
+Table created.
+
+SQL> INSERT INTO bankdetails VALUES('42217647023','Suresh','10000','04-FEB-13');
+
+1 row created.
+
+SQL> INSERT INTO bankdetails VALUES('84632354765','Ramesh','20000','05-MAR-14');
+
+1 row created.
+
+SQL> INSERT INTO bankdetails VALUES('68426587235','Mahesh','15000','06-APR-15');
+
+1 row created.
+
+SQL> SELECT * FROM bankdetails;
+
+ACCNO       NAME               BALANCE ADATE
+----------- --------------- ---------- ---------
+42217647023 Suresh               10000 04-FEB-13
+84632354765 Ramesh               20000 05-MAR-14
+68426587235 Mahesh               15000 06-APR-15
+
+SQL>
+SQL> CREATE TABLE bankintr(
+  2     accno CHAR(11),
+  3     intr INT);
+
+Table created.
+
+
+SQL> DECLARE
+  2     CURSOR temp IS
+  3             SELECT accno, balance FROM bankdetails;
+  4             rec temp %ROWTYPE;
+  5     interest INT;
+  6  BEGIN
+  7     OPEN temp;
+  8     LOOP
+  9             FETCH temp into rec;
+ 10             EXIT WHEN temp%NOTFOUND;
+ 11             interest := 0.08*rec.balance;
+ 12             INSERT INTO bankintr VALUES(rec.accno,interest);
+ 13     END LOOP;
+ 14     CLOSE temp;
+ 15  END;
+ 16  /
+
+PL/SQL procedure successfully completed.
+
+SQL>
+SQL> SELECT * FROM bankintr;
+
+ACCNO             INTR
+----------- ----------
+42217647023        800
+84632354765       1600
+68426587235       1200
+
+
+
+
+
+SQL> CREATE TABLE student(
+  2     id CHAR(3),
+  3     name VARCHAR(10),
+  4     m1 INT,
+  5     m2 INT,
+  6     m3 INT,
+  7     grade CHAR(1));
+
+Table created.
+
+
+SQL> INSERT INTO student (id, name, m1, m2, m3)
+  2     VALUES('001','Tom',70,80,90);
+
+1 row created.
+
+SQL> INSERT INTO student (id,name,m1,m2,m3)
+  2     VALUES('002','Aneeta',65,85,92);
+
+1 row created.
+
+SQL> INSERT INTO student (id,name,m1,m2,m3)
+  2     VALUES('003','Don',89,93,54);
+
+1 row created.
+
+SQL> INSERT INTO student (id,name,m1,m2,m3)
+  2     VALUES('004','Ben',96,67,65);
+
+1 row created.
+
+SQL> INSERT INTO student (id,name,m1,m2,m3)
+  2     VALUES('005','Oggy',78,45,97);
+
+1 row created.
+
+SQL>
+SQL> SELECT * FROM student;
+
+ID  NAME               M1         M2         M3 G
+--- ---------- ---------- ---------- ---------- -
+001 Tom                70         80         90
+002 Aneeta             65         85         92
+003 Don                89         93         54
+004 Ben                96         67         65
+005 Oggy               78         45         97
+
+
+SQL> DECLARE
+  2     CURSOR temp IS
+  3             SELECT id, m1, m2, m3 FROM student;
+  4             row temp %ROWTYPE;
+  5     total INT;
+  6     gr CHAR(1);
+  7
+  8  BEGIN
+  9     OPEN temp;
+ 10     LOOP
+ 11             FETCH temp into row;
+ 12             EXIT WHEN temp%NOTFOUND;
+ 13             total := row.m1 + row.m2 + row.m3;
+ 14             IF(total/3) >89 THEN
+ 15                     gr := 'A';
+ 16             ELSIF(total/3) >79 THEN
+ 17                     gr := 'B';
+ 18             ELSIF(total/3) >69 THEN
+ 19                     gr := 'C';
+ 20             ELSIF(total/3) >59 THEN
+ 21                     gr := 'D';
+ 22             ELSE
+ 23                     gr := 'E';
+ 24             END IF;
+ 25             UPDATE student SET grade = gr WHERE id = row.id;
+ 26
+ 27     END LOOP;
+ 28     CLOSE temp;
+ 29  END;
+ 30  /
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT * FROM student;
+
+ID  NAME               M1         M2         M3 G
+--- ---------- ---------- ---------- ---------- -
+001 Tom                70         80         90 B
+002 Aneeta             65         85         92 B
+003 Don                89         93         54 C
+004 Ben                96         67         65 C
+005 Oggy               78         45         97 C
+
+
+SQL> CREATE TABLE people_list(
+  2     id CHAR(3),
+  3     name VARCHAR(10),
+  4     dt_joining DATE,
+  5     place VARCHAR(15));
+
+Table created.
+
+SQL>
+SQL> INSERT INTO people_list VALUES('101','Ramesh','04-FEB-13','Kochi');
+
+1 row created.
+
+SQL> INSERT INTO people_list VALUES('102','Suresh','05-MAR-12','Kottayam');
+
+1 row created.
+
+SQL> INSERT INTO people_list VALUES('103','Mahesh','06-FEB-14','Calicut');
+
+1 row created.
+
+SQL>
+SQL> SELECT * FROM people_list;
+
+ID  NAME       DT_JOININ PLACE
+--- ---------- --------- ---------------
+101 Ramesh     04-FEB-13 Kochi
+102 Suresh     05-MAR-12 Kottayam
+103 Mahesh     06-FEB-14 Calicut
+
+
+SQL> CREATE TABLE exp_list(
+  2     id CHAR(3),
+  3     name VARCHAR(10),
+  4     exp INT);
+
+Table created.
+
+SQL> DECLARE
+  2     CURSOR temp IS
+  3             SELECT id, name, dt_joining FROM people_list;
+  4             row temp %ROWTYPE;
+  5     exp INT;
+  6
+  7  BEGIN
+  8     OPEN temp;
+  9     LOOP
+ 10             FETCH temp into row;
+ 11             EXIT WHEN temp%NOTFOUND;
+ 12             exp := MONTHS_BETWEEN(SYSDATE, row.dt_joining)/12;
+ 13             IF exp >10 THEN
+ 14                     INSERT INTO exp_list VALUES(row.id, row.name, exp);
+ 15             END IF;
+ 16
+ 17     END LOOP;
+ 18     CLOSE temp;
+ 19  END;
+ 20  /
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT * FROM exp_list;
+
+ID  NAME              EXP
+--- ---------- ----------
+101 Ramesh             11
+102 Suresh             12
+
+
+SQL> CREATE TABLE employee(
+  2     id CHAR(3),
+  3     name VARCHAR(10),
+  4     monthly_salary INT);
+
+Table created.
+
+SQL>
+SQL> INSERT INTO employee VALUES('201','Ramesh', 5600);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES('202','Suresh', 4800);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES('203','Mahesh', 55000);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES('204','Umesh', 20000);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES('205','Rupesh', 4500);
+
+1 row created.
+
+SQL>
+SQL> SELECT * FROM employee;
+
+ID  NAME       MONTHLY_SALARY
+--- ---------- --------------
+201 Ramesh               5600
+202 Suresh               4800
+203 Mahesh              55000
+204 Umesh               20000
+205 Rupesh               4500
+
+SQL> DECLARE
+  2     CURSOR temp IS
+  3             SELECT id, monthly_salary FROM employee;
+  4             row temp %ROWTYPE;
+  5     annualsal INT;
+  6     sal INT;
+  7
+  8  BEGIN
+  9     OPEN temp;
+ 10     LOOP
+ 11             FETCH temp into row;
+ 12             EXIT WHEN temp%NOTFOUND;
+ 13             annualsal := row.monthly_salary * 12;
+ 14             IF annualsal > 500000 THEN
+ 15                     sal := row.monthly_salary * 1.1;
+ 16             ELSIF annualsal > 200000 THEN
+ 17                     sal := row.monthly_salary * 1.15;
+ 18             ELSIF annualsal > 60000 THEN
+ 19                     sal := row.monthly_salary * 1.2;
+ 20             ELSE
+ 21                     sal := row.monthly_salary * 1.25;
+ 22             END IF;
+ 23             UPDATE employee SET monthly_salary = sal WHERE id = row.id;
+ 24     END LOOP;
+ 25     CLOSE temp;
+ 26  END;
+ 27  /
+
+PL/SQL procedure successfully completed.
+
+SQL>
+SQL> SELECT * FROM employee;
+
+ID  NAME       MONTHLY_SALARY
+--- ---------- --------------
+201 Ramesh               6720
+202 Suresh               6000
+203 Mahesh              60500
+204 Umesh               23000
+205 Rupesh               5625
