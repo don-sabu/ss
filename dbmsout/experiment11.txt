@@ -153,22 +153,22 @@ New row inserted in customer_details table!
 
 
 
+SQL> CREATE OR REPLACE TRIGGER salary_msg
+  2  AFTER INSERT ON emp_details
+  3  FOR EACH ROW
+  4  WHEN (new.salary > 20000)
+  5  BEGIN
+  6     dbms_output.put_line('Salary more than 20000!');
+  7  END;
+  8  /
+
+Trigger created.
 
 
+SQL> INSERT INTO emp_details VALUES('15','Ameer', 18000);
+Salary more than 20000!
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+1 row created.
 
 
 
