@@ -1,0 +1,71 @@
+SQL> CREATE OR REPLACE FUNCTION fact(n NUMBER)
+  2  RETURN NUMBER
+  3  AS
+  4  f NUMBER := 1;
+  5  BEGIN
+  6     FOR i IN 1..n LOOP
+  7             f := f*i;
+  8     END LOOP;
+  9  RETURN f;
+ 10  END;
+ 11  /
+Function created.
+
+SQL> DECLARE
+  2     n number;
+  3     f number;
+  4
+  5  BEGIN
+  6     n := &n;
+  7     f := fact(n);
+  8     dbms_output.put_line('Factorial is: ' ||f);
+  9  END;
+ 10  /
+Enter value for n: 5
+old   6:        n := &n;
+new   6:        n := 5;
+Factorial is: 120
+PL/SQL procedure successfully completed.
+
+
+SQL> CREATE TABLE student_details(
+  2     roll INT,
+  3     marks INT,
+  4     phone CHAR(10));
+Table created.
+
+SQL> INSERT INTO student_details VALUES(1, 72, '8086688441');
+1 row created.
+SQL> INSERT INTO student_details VALUES(2, 78, '9778429912');
+1 row created.
+SQL> INSERT INTO student_details VALUES(3, 65, '8281612913');
+1 row created.
+
+SQL> SELECT * FROM student_details;
+      ROLL      MARKS PHONE
+---------- ---------- ----------
+         1         72 8086688441
+         2         78 9778429912
+         3         65 8281612913
+
+SQL> CREATE OR REPLACE PROCEDURE pr1
+  2  AS
+  3  BEGIN
+  4     UPDATE student_details SET marks = marks * 1.05;
+  5  END;
+  6  /
+Procedure created.
+
+SQL> BEGIN
+  2     pr1;
+  3  END;
+  4  /
+PL/SQL procedure successfully completed.
+
+SQL> SELECT * FROM student_details;
+
+      ROLL      MARKS PHONE
+---------- ---------- ----------
+         1         76 8086688441
+         2         82 9778429912
+         3         68 8281612913
